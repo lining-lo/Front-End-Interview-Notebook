@@ -25,4 +25,3 @@
 	两者区别是标准盒模型的实际宽高会把 padding 和 border 计算在内，而怪异盒模型不会。
 	形成怪异盒模型的条件是 box-sizing:border-box；形成标准盒模型的条件 box-sizing:content-box。
 ```
-
