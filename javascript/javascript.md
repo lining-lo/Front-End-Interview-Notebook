@@ -4,7 +4,7 @@
 
 ### 目录
 
-* [1. 说一说 JS 数据类型有哪些,区别是什么？](#1-说一说 JS 数据类型有哪些,区别是什么)
+* [1. 说一说 JS 数据类型有哪些,区别是什么？](#1-说一说-JS-数据类型有哪些,区别是什么)
 * [2. 说一说 null 和 undefined 的区别，如何让一个属性变为 null？](#2-说一说-null-和-undefined-的区别，如何让一个属性变为-null)
 * [3. 说一说 JavaScript 有几种方法判断变量的类型？](#3-说一说-JavaScript-有几种方法判断变量的类型)
 * [4. 说一说数组去重都有哪些方法？](#4-说一说数组去重都有哪些方法)
@@ -34,11 +34,13 @@
 #### 3. 说一说 JavaScript 有几种方法判断变量的类型？
 
 ```
-1 typeof：常用于判断基本数据类型，对于引用数据类型除了 function 返回 function，其余全部返回 object。
-2 instanceof：主要用于区分引用数据类型(根据原型链判断)。
-3 constructor：用于检测引用数据类型。
-4 Object.prototype.toString.call()：适用于所有类型的判断检测，返回的是该数据类型的字符串([Object xxx])。
+1 typeof xxx：常用于判断基本数据类型，对于引用数据类型除了 function 返回 function，其余全部返回 object。
+2 xxx instanceof 数据类型：主要用于区分引用数据类型(根据原型链判断)，返回值是布尔值。
+3 xxx.constructor === 数据类型：用于检测引用数据类型。
+4 Object.prototype.toString.call(xxx)：适用于所有类型的判断检测，返回的是该数据类型的字符串([Object 数据类型])。
 ```
+
+> [【掘金】谈一谈 JavaScript 数据类型判断](https://juejin.cn/post/7029111905956397070?searchId=202504102041503DCB9FB4AA83CF133BA7)
 
 #### 4. 说一说数组去重都有哪些方法？
 
