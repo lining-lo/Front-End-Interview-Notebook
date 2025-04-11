@@ -11,6 +11,11 @@
 * [5. 说一说伪数组和数组的区别？](#5-说一说伪数组和数组的区别)
 * [6. 说一说 map 和 forEach 的区别？](#6-说一说-map-和-forEach-的区别)
 * [7. 说一说 es6 中箭头函数？](#7-说一说-es6-中箭头函数)
+* [8. 事件扩展符用过吗，什么场景下？](#8-事件扩展符用过吗，什么场景下)
+* [9. 说一说你对闭包的理解？](#9-说一说你对闭包的理解)
+* [10. 说一说 JS 变量提升？](#10-说一说-JS-变量提升)
+* [11. 说一说 this 指向（普通函数、箭头函数）？](#11-说一说-this-指向（普通函数、箭头函数）)
+* [12. 说一说 call apply bind 的作用和区别？](#12-说一说-call-apply-bind-的作用和区别？)
 
 #### 1. 说一说 JS 数据类型有哪些,区别是什么？
 
@@ -79,4 +84,60 @@
 3 箭头函数最大的特点就是没有 this，继承上一个作用域的 this（一般指向 window）。
 4 箭头函数没有 arguments，也不能作为 generator 函数，不能使用 yield 命令。
 ```
+
+#### 8. 事件扩展符用过吗，什么场景下？
+
+```
+1 数组拷贝：let a = [1,2,3];let b = [...a] 
+2 数组合并：let a = [1,2,3];let b = [4,5,6];let c = [...a,...b] 
+3 伪数组转成真正的数组：let a = new Set([1,2,3]); let b = [...a]
+```
+
+#### 9. 说一说你对闭包的理解？
+
+```
+1 闭包解决的问题：因为全局变量容易污染环境，而局部变量又无法长期驻留内存，于是我们需要一种机制，即能长期保存变量又不污染全局，这就是闭包。
+2 实现条件：
+    ① 有函数嵌套
+    ② 内部函数引用外部作用域的变量参数
+    ③ 返回值是函数
+    ④ 创建一个对象函数，让其长期驻留
+3 闭包形成的原理：作用域链，当前作用域可以访问上级作用域中的变量。
+```
+
+> [【bilibili】什么是闭包，理解闭包是什么，弄懂闭包](https://www.bilibili.com/video/BV1sd4y1S7Ed/?spm_id_from=333.337.search-card.all.click&vd_source=59a7d9ad927e21d4f309b9c4fd077245)
+
+#### 10. 说一说 JS 变量提升？
+
+```
+1 变量提升是指 JS 的变量和函数声明会在代码编译期，提升到代码的最前面。
+2 变量提升成立的前提是使用 var 关键字进行声明的变量，并且变量提升的时候只有声明被提升，赋值并不会被提升，同时函数的声明提升会比变量的提升优先。
+3 变量提升的结果，可以在变量初始化之前访问该变量，返回的是undefined；在函数声明前可以调用该函数。
+4 使用 let 和 const 声明的变量是创建提升，形成暂时性死区，在初始化之前访问 let 和 const 创建的变量会报错。
+```
+
+> [【bilibili】纯干货  js 变量和函数提升动画详解](https://www.bilibili.com/video/BV1ah411M7n4/?spm_id_from=333.337.search-card.all.click&vd_source=59a7d9ad927e21d4f309b9c4fd077245)
+
+#### 11. 说一说 this 指向（普通函数、箭头函数）？
+
+```
+1 普通函数中的 this 总是指向它的直接调用者,例如 obj.function,那么 function 中的 this 就是 obj。
+2 普通函数在默认情况(非严格模式下,未使用'use strict'),没找到直接调用者,则 this 指的是 window;在严格模式下,this 指的则是 undefined。
+3 箭头函数没有 this，继承上一个作用域的 this，所以也不能作为构造函数。
+```
+
+> [【bilibili】普通函数和箭头函数this指向问题](https://www.bilibili.com/video/BV1SZ4y1f7ML/?spm_id_from=333.337.search-card.all.click&vd_source=59a7d9ad927e21d4f309b9c4fd077245)
+
+#### 12. 说一说 call apply bind 的作用和区别？
+
+```
+1 call、apply、bind 的作用都是改变函数运行时的 this 指向。
+2 bind、call、apply 在使用上有所不同：
+	① fn.call (newThis,params)，函数的第一个参数是 this 的新指向，后面依次传入函数 fn 要用到的参数，会立即执行 fn 函数。  
+	② fn.apply (newThis,paramsArr)，函数的第一个参数是 this 的新指向,第二个参数是 fn 要用到的参数数组，会立即执行 fn 函数。  
+	③ fn.bind (newThis,params)，函数的第一个参数是 this 的新指向，后面的参数可以直接传递，也可以按数组的形式传入，
+	不会立即执行 fn 函数，且只能改变一次 fn 函数的指向，后续再用 bind 更改无效，返回的是已经更改 this 指向的新 fn。
+```
+
+> [【bilibili】两分钟说完 call, apply 和 bind](https://www.bilibili.com/video/BV1Ug411F7fZ/?spm_id_from=333.337.search-card.all.click&vd_source=59a7d9ad927e21d4f309b9c4fd077245)
 
