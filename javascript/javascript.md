@@ -15,7 +15,12 @@
 * [9. 说一说你对闭包的理解？](#9-说一说你对闭包的理解)
 * [10. 说一说 JS 变量提升？](#10-说一说-JS-变量提升)
 * [11. 说一说 this 指向（普通函数、箭头函数）？](#11-说一说-this-指向（普通函数、箭头函数）)
-* [12. 说一说 call apply bind 的作用和区别？](#12-说一说-call-apply-bind-的作用和区别？)
+* [12. 说一说 call apply bind 的作用和区别？](#12-说一说-call-apply-bind-的作用和区别)
+* [13. 说一说原型与原型链？](#13-说一说原型与原型链)
+* [14. 说一说 new 会发生什么？](#14-说一说-new-会发生什么)
+* [15. 说一说 defer 和 async 区别？](#15-说一说-defer-和-async-区别)
+* [16. 说一说 promise 是什么与使用方法？](#16-说一说-promise-是什么与使用方法)
+* [17. 说一说 JS 实现异步的方法？](#17-说一说-JS-实现异步的方法？)
 
 #### 1. 说一说 JS 数据类型有哪些,区别是什么？
 
@@ -99,7 +104,7 @@
 1 闭包解决的问题：因为全局变量容易污染环境，而局部变量又无法长期驻留内存，于是我们需要一种机制，即能长期保存变量又不污染全局，这就是闭包。
 2 实现条件：
     ① 有函数嵌套
-    ② 内部函数引用外部作用域的变量参数
+    ② 内部函数引用外部作用域的变量
     ③ 返回值是函数
     ④ 创建一个对象函数，让其长期驻留
 3 闭包形成的原理：作用域链，当前作用域可以访问上级作用域中的变量。
@@ -112,7 +117,7 @@
 ```
 1 变量提升是指 JS 的变量和函数声明会在代码编译期，提升到代码的最前面。
 2 变量提升成立的前提是使用 var 关键字进行声明的变量，并且变量提升的时候只有声明被提升，赋值并不会被提升，同时函数的声明提升会比变量的提升优先。
-3 变量提升的结果，可以在变量初始化之前访问该变量，返回的是undefined；在函数声明前可以调用该函数。
+3 变量提升的结果，可以在变量初始化之前访问该变量，返回的是 undefined；在函数声明前可以调用该函数。
 4 使用 let 和 const 声明的变量是创建提升，形成暂时性死区，在初始化之前访问 let 和 const 创建的变量会报错。
 ```
 
@@ -141,3 +146,60 @@
 
 > [【bilibili】两分钟说完 call, apply 和 bind](https://www.bilibili.com/video/BV1Ug411F7fZ/?spm_id_from=333.337.search-card.all.click&vd_source=59a7d9ad927e21d4f309b9c4fd077245)
 
+#### 13. 说一说原型与原型链？
+
+```
+1 函数都有 prototype 属性,称之为原型，也称为原型对象，原型可以放一些属性和方法，共享给实例对象使用，也可以做继承。
+2 对象都有 __proto__ 属性,这个属性指向它的原型对象,原型对象也是对象,也有 __proto__ 属性,指向原型对象的原型对象,这样一层一层形成的链式结构称为原型链，最顶层找不到则返回 null
+```
+
+> [【bilibili】前端八股文原型和原型链](https://www.bilibili.com/video/BV1LY411d7Yt/?spm_id_from=333.337.search-card.all.click&vd_source=59a7d9ad927e21d4f309b9c4fd077245)
+
+#### 14. 说一说 new 会发生什么？
+
+```
+1 创建一个新对象
+2 将新对象的 __proto__（原型）指向构造函数的 prototype（原型对象）
+3 构造函数绑定新对象的 this 并执行返回结果
+4 判断返回结果是否为 null，如果为 null,返回新对象，否则直接返回执行结果。
+```
+
+> [【掘金】new 做了哪些操作？手写一个 new 方法！](https://juejin.cn/post/7095977046462955534?searchId=20250411142951AC074EBDA2BDC3735B13)
+
+#### 15. 说一说 defer 和 async 区别？
+
+```
+1 html 文件都是按顺序执行的，script 标签中没有加 defer 和 async 时，浏览器在解析文档时遇到 script 标签就会停止解析阻塞文档解析，先加载 JS 文件，加载完之后立即执行，执行完毕后才能继续解析文档。
+2 在 script 标签中写入 defer 或者 async 时，就会使 JS 文件异步加载，即 html 执行到 script 标签时，JS 加载和文档解析同时进行。
+3 async 是在 JS 加载完成后立即执行 JS 脚本，阻塞文档解析，而 defer 则是 JS 加载完成后，在文档解析完成后执行 JS 脚本。
+```
+
+> [【bilibili】script 标签 defer 和 async 的区别](https://www.bilibili.com/video/BV1PA411x7jA/?spm_id_from=333.337.search-card.all.click&vd_source=59a7d9ad927e21d4f309b9c4fd077245)
+
+#### 16. 说一说 promise 是什么与使用方法？
+
+```
+1 概念：Promise 是异步编程的一种解决方案，用于解决回调地狱问题，让代码可读性更高，更利于维护。 
+2 Promise 有三种状态 fulfilled/resolved(成功)、rejected(失败)、pending(执行中)。
+3 使用方法：
+	① 可以通过 new Promise((resolve,reject) => { resolve(); reject(); }) 将构造函数实例化；
+	② 实例创建完成后，可以使用 .then 方法指定成功或者失败的回调函数，也可以用 .catch 捕获失败，
+	then 和 catch 最后也是返回 promise 对象，所以可以链式调用。
+	③ Promise.all([p, p2, p3])，p1,p2,p3 都是 promise 对象，只有里面的参数都返回成功，它的结果才会成功
+	④ Promise.race([p1, p2, p3])，p1,p2,p3 都是 promise 对象，第一个完成的 promise 的结果就是最终的结果
+```
+
+> [【bilibili】异步编程: 一次性搞懂 Promise, async, await](https://www.bilibili.com/video/BV1WP4y187Tu/?spm_id_from=333.337.search-card.all.click&vd_source=59a7d9ad927e21d4f309b9c4fd077245)
+
+#### 17. 说一说 JS 实现异步的方法？
+
+```
+1 回调函数
+2 事件监听
+3 setTimeout（定时器）
+4 Promise
+5 generator 生成器
+6 async/await
+```
+
+> [【掘金】JavaScript 异步编程的 6 种方法](https://juejin.cn/post/6844903776780828685?searchId=20250411163615E6548F370DD46496CFC6)
