@@ -20,7 +20,12 @@
 * [14. 说一说 new 会发生什么？](#14-说一说-new-会发生什么)
 * [15. 说一说 defer 和 async 区别？](#15-说一说-defer-和-async-区别)
 * [16. 说一说 promise 是什么与使用方法？](#16-说一说-promise-是什么与使用方法)
-* [17. 说一说 JS 实现异步的方法？](#17-说一说-JS-实现异步的方法？)
+* [17. 说一说 JS 实现异步的方法？](#17-说一说-JS-实现异步的方法)
+* [18. 说一说 cookie、sessionStorage、localStorage 区别？](#18-说一说-cookie、sessionStorage、localStorage-区别)
+* [19. 说一说如何实现可过期的 localstorage 数据？](#19-说一说如何实现可过期的-localstorage-数据)
+* [20. 说一下 token 能放在 cookie 中吗？](#20-说一下-token-能放在-cookie-中吗)
+* [21. 说一说 axios 的拦截器原理及应用？](#21-说一说-axios-的拦截器原理及应用)
+* [22. 说一说创建 ajax 过程？](#22-说一说创建-ajax-过程)
 
 #### 1. 说一说 JS 数据类型有哪些,区别是什么？
 
@@ -203,3 +208,71 @@
 ```
 
 > [【掘金】JavaScript 异步编程的 6 种方法](https://juejin.cn/post/6844903776780828685?searchId=20250411163615E6548F370DD46496CFC6)
+
+#### 18. 说一说 cookie、sessionStorage、localStorage 区别？
+
+```
+1 Cookie、SessionStorage、LocalStorage 都是浏览器的本地存储。
+2 它们的共同点：都是存储在浏览器本地的。
+3 它们的区别：
+	① cookie 是由服务器端写入的，而 SessionStorage、LocalStorage 都是由前端写入的
+	② cookie 的生命周期是由服务器端在写入的时候就设置好的，LocalStorage 是写入就一直存在，SessionStorage 是页面关闭的时候就会自动清除
+	③ cookie 的存储空间比较小大概 4KB，SessionStorage、LocalStorage存储空间比较大，大概5M
+	④ 三者的数据共享都遵循同源原则，sessionStorage 还限制必须是同一个页面
+	⑤ 在前端给后端发送请求的时候会自动携带 Cookie 中的数据，但是 SessionStorage、 LocalStorage 不会
+    ⑥ cookie 一般存储登录验证信息或者 token，localStorage 常用于存储不易变动的数据，减轻服务器压力，
+    sessionStorage 可以用来监测用户是否是刷新进入页面，如音乐播放器恢复进度条功能 
+```
+
+#### 19. 说一说如何实现可过期的 localstorage 数据？
+
+```
+1 localStorage 如果不手动删除，会长久保存整个网站的数据。
+2 实现可过期的 localStorage 有两种方法，一种是惰性删除，另一种是定时删除。
+3 惰性删除是指获取数据的时候，拿到存储的时间和当前时间做对比，如果超过过期时间就清除。
+4 定时删除是指每隔一段时间执行一次删除操作，并通过限制删除操作执行的次数和频率，来减少删除操作对CPU的长期占用。
+5 LocalStorage 清空应用场景：token 存储在 LocalStorage 中，要清空。
+```
+
+> [【掘金】运用惰性删除和定时删除实现可过期的 localStorage 缓存](https://juejin.cn/post/7064197186480766984?searchId=2025041120523639B3F6908C58B08AFC1A)
+
+#### 20. 说一下 token 能放在 cookie 中吗？
+
+```
+1 能。
+2 token 一般是用来判断用户是否登录的，它内部包含的信息有：uid(用户唯一的身份标识)、time(当前时间的时间戳)、sign（签名，token 的前几位以哈希算法压缩成的一定长度的十六进制字符串）。
+3 token 可以存放在 Cookie 中，token 是否过期，应该由后端来判断，不该前端来判断，所以 token 存储在 cookie 中只要不设置 cookie 的过期时间就行
+4 如果 token 失效，就让后端在接口中返回固定的状态表示 token 失效，需要重新登录，再重新登录的时候，重新设置 cookie 中的 token 就行。
+5 token 认证流程：
+	① 客户端使用用户名跟密码请求登录 
+	② 服务端收到请求，去验证用户名与密码 
+	③ 验证成功后，服务端签发一个 token ，并把它发送给客户端 
+	④ 客户端接收 token 以后会把它存储起来，比如放在 cookie 里或者 localStorage 里 
+	⑤ 客户端每次发送请求时都需要带着服务端签发的 token（把 token 放到 HTTP 的 Header 里） 
+	⑥ 服务端收到请求后，需要验证请求里带有的 token ，如验证成功则返回对应的数据
+```
+
+#### 21. 说一说 axios 的拦截器原理及应用？
+
+```
+1 Axios 是一个基于 promise 的 HTTP 库，可以用在浏览器和 node.js 中。从浏览器中创建 XMLHttpRequests,从 node.js 创建 http 请求,支持 Promise API,可拦截请求和响应，可转换请求数据和响应数据，可取消请求，可自动转换 JSON 数据，客户端支持防御 XSRF。
+2 axios 拦截器分为 请求（request）拦截器和 响应（response）拦截器。
+3 请求拦截器用于在接口请求之前做的处理，比如为每个请求带上相应的参数（token，时间戳等）
+4 响应拦截器用于在接口返回之后做的处理，比如对返回的状态进行判断（token 是否过期）。
+5 拦截器原理：创建一个 chn 数组，数组中保存了拦截器相应方法以及 dispatchRequest（dispatchRequest 这个函数调用才会真正的开始下发请求），把请求拦截器的方法放到 chn 数组中 dispatchRequest 的前面，把响应拦截器的方法放到 chn 数组中 dispatchRequest 的后面，把请求拦截器和相应拦截 forEach 将它们分 unshift,push 到 chn 数组中，为了保证它们的执行顺序，需要使用 promise，以出队列的方式对 chn 数组中的方法挨个执行。
+```
+
+> [【掘金】axios 请求拦截器&响应拦截器](https://juejin.cn/post/7100470316857557006?searchId=202504120858391352C61B3495CBA331FD)
+
+#### 22. 说一说创建 ajax 过程？
+
+```
+1 创建异步对象，即 XMLHttpRequest 对象。 
+2 使用 open 方法设置请求参数。open(method, url, async)。参数解释：请求的方法、请求的 url、是否异步。第三个参数如果不写，则默认为 true。
+3 发送请求：send()。 
+4 注册事件：注册 onreadystatechange 事件，状态改变时就会调用。如果要在数据完整请求回来的时候才调用，我们需要手动写一些判断的逻辑。 
+5 服务端响应，获取返回的数据。 
+```
+
+> [【掘金】Ajax 原理一篇就够了](https://juejin.cn/post/6844903618764603399?searchId=20250412091905DD062E4A88B06CB01989)
+
