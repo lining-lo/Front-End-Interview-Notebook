@@ -26,6 +26,11 @@
 * [20. 说一下 token 能放在 cookie 中吗？](#20-说一下-token-能放在-cookie-中吗)
 * [21. 说一说 axios 的拦截器原理及应用？](#21-说一说-axios-的拦截器原理及应用)
 * [22. 说一说创建 ajax 过程？](#22-说一说创建-ajax-过程)
+* [23. 说一下 fetch 请求方式？](#23-说一下-fetch-请求方式)
+* [24. 说一下有什么方法可以保持前后端实时通信？](#24-说一下有什么方法可以保持前后端实时通信)
+* [25. 说一下浏览器输入 URL 发生了什么？](#25-说一下浏览器输入-URL-发生了什么)
+* [26. 说一下浏览器如何渲染页面的？](#26-说一下浏览器如何渲染页面的)
+* [27. 说一下重绘、重排区别如何避免？](#27-说一下重绘、重排区别如何避免)
 
 #### 1. 说一说 JS 数据类型有哪些,区别是什么？
 
@@ -213,8 +218,7 @@
 
 ```
 1 Cookie、SessionStorage、LocalStorage 都是浏览器的本地存储。
-2 它们的共同点：都是存储在浏览器本地的。
-3 它们的区别：
+2 它们的区别：
 	① cookie 是由服务器端写入的，而 SessionStorage、LocalStorage 都是由前端写入的
 	② cookie 的生命周期是由服务器端在写入的时候就设置好的，LocalStorage 是写入就一直存在，SessionStorage 是页面关闭的时候就会自动清除
 	③ cookie 的存储空间比较小大概 4KB，SessionStorage、LocalStorage存储空间比较大，大概5M
@@ -275,4 +279,61 @@
 ```
 
 > [【掘金】Ajax 原理一篇就够了](https://juejin.cn/post/6844903618764603399?searchId=20250412091905DD062E4A88B06CB01989)
+
+#### 23. 说一下 fetch 请求方式？
+
+```
+1 fetch 是一种 HTTP 数据请求的方式，是 XMLHttpRequest 的一种替代方案。
+2 Fetch 函数就是原生 js，没有使用 XMLHttpRequest 对象。
+3 fetch() 方法返回一个 Promise 解析 Response 来自 Request 显示状态（成功与否）的方法。 
+4 XMLHttpRequest 的问题：
+	① 所有的功能全部集中在一个对象上, 容易书写出混乱而且不容易维护的代码 
+	① 采用传统的事件驱动模式, 无法适配新的 Promise API 
+5 Fetch API 的特点：
+	① 精细的功能分割: 头部信息, 请求信息, 响应信息等均分布到不同的对象, 更利于处理各种复杂的数据交互场景 
+	① 使用 Promise API, 更利于异步代码的书写 
+	③ 同源请求也可以自定义不带 cookie，某些服务不需要 cookie 场景下能少些流量
+```
+
+> [【bilibili】Fetch API - JavaScript 前端 Web 工程师](https://www.bilibili.com/video/BV1434y1o74Q/?spm_id_from=333.337.search-card.all.click&vd_source=59a7d9ad927e21d4f309b9c4fd077245)
+
+#### 24. 说一下有什么方法可以保持前后端实时通信？
+
+```
+1 轮询、长轮询、 iframe 流、WebSocket、SSE。
+2 轮询是客户端和服务器之间会一直进行连接，每隔一段时间就询问一次。
+3 长轮询是对轮询的改进版，客户端发送 HTTP 给服务器之后，如果没有新消息，就一直等待。有新消息，才会返回给客户端。
+4 iframe 流方式是在页面中插入一个隐藏的 iframe，利用其 src 属性在服务器和客户端之间创建一条长连接，服务器向 iframe 传输数据（通常是 HTML，内有负责插入信息的 javascript），来实时更新页面。
+5 WebSocket 是类似 Socket 的 TCP 长连接的通讯模式，一旦 WebSocket 连接建立后，后续数据都以帧序列的形式传输。
+6 SSE(Server-Sent Event)是建立在浏览器与服务器之间的通信渠道，然后服务器向浏览器推送信息。
+```
+
+#### 25. 说一下浏览器输入 URL 发生了什么？
+
+```
+1 通过 DNS 解析 URL 中域名对应的服务器主机 IP 地址 
+2 与服务器主机三次握手建立 TCP 连接
+3 发送 HTTP 请求 获取服务器返回的数据
+4 浏览器解析 HTML、CSS 和 JS 等前端文件，渲染页面
+```
+
+> [【bilibili】在浏览器输入 URL 回车之后发生了什么](https://www.bilibili.com/video/BV1s44y117vK/?spm_id_from=333.337.search-card.all.click&vd_source=59a7d9ad927e21d4f309b9c4fd077245)
+
+#### 26. 说一下浏览器如何渲染页面的？
+
+```
+1 HTML 被 HTML 解析器解析成 DOM 树。 
+2 CSS 被 CSS 解析器解析成 CSS 规则树。 
+3 浏览器会将 CSS 规则树附着在 DOM 树上，并结合两者生成 Render 树。 
+4 生成布局（flow），浏览器通过解析计算出每一个渲染树节点的位置和大小，在屏幕上画出渲染树的所有节点。 
+5 将布局绘制（paint）在屏幕上，显示出整个页面。 
+```
+
+> [【bilibili】浏览器渲染页面的流程](https://www.bilibili.com/video/BV18f4y1H7Zu/?spm_id_from=333.337.search-card.all.click&vd_source=59a7d9ad927e21d4f309b9c4fd077245)
+
+#### 27. 说一下重绘、重排区别如何避免？
+
+```
+
+```
 
